@@ -1,1 +1,581 @@
-e
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fikria | Where Knowledge Meets Wisdom</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@700;900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --dark-blue: #0F172A;
+            --emerald-green: #16A34A;
+            --white: #FFFFFF;
+            --gold: #D4AF37;
+            --light-bg: #F8FAFC;
+            --text-dark: #1E293B;
+            --text-light: #64748B;
+            --border-color: #E2E8F0;
+        }
+
+        [data-theme="dark"] {
+            --dark-blue: #020617;
+            --light-bg: #0F172A;
+            --text-dark: #F8FAFC;
+            --text-light: #94A3B8;
+            --white: #1E293B;
+            --border-color: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Merriweather', serif;
+        }
+
+        /* Reading Progress Bar */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--emerald-green), var(--gold));
+            width: 0%;
+            z-index: 1000;
+        }
+
+        /* Top Header & Navigation */
+        header {
+            background-color: var(--dark-blue);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: #E2E8F0;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle, .search-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .theme-toggle:hover, .search-btn:hover {
+            color: var(--gold);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, #1E293B 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            border-bottom: 4px solid var(--gold);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #94A3B8;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 2rem;
+        }
+
+        .search-bar-container {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border-radius: 50px;
+            overflow: hidden;
+        }
+
+        .search-bar-container input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .search-bar-container button {
+            background-color: var(--emerald-green);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .search-bar-container button:hover {
+            background-color: #15803d;
+        }
+
+        /* Main Layout */
+        .main-container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+        }
+
+        @media (max-width: 968px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                display: none; /* For simplicity in basic HTML */
+            }
+        }
+
+        /* Section Heading */
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--emerald-green);
+            display: inline-block;
+        }
+
+        /* Articles Grid */
+        .featured-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .article-card {
+            background-color: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .article-content {
+            padding: 1.5rem;
+        }
+
+        .meta-category {
+            color: var(--emerald-green);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .article-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-dark);
+            text-decoration: none;
+            display: block;
+        }
+
+        .article-title:hover {
+            color: var(--emerald-green);
+        }
+
+        .article-excerpt {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            border-top: 1px solid var(--border-color);
+            padding-top: 0.75rem;
+        }
+
+        /* Sidebar Widgets */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .widget {
+            background-color: var(--white);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .widget-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            border-left: 4px solid var(--gold);
+            padding-left: 0.5rem;
+        }
+
+        .category-list {
+            list-style: none;
+        }
+
+        .category-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .category-list a {
+            color: var(--text-dark);
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+        }
+
+        .category-list a:hover {
+            color: var(--emerald-green);
+        }
+
+        /* Newsletter Widget */
+        .newsletter-form input {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .newsletter-form button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--dark-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .newsletter-form button:hover {
+            background-color: var(--emerald-green);
+        }
+
+        /* Author Section */
+        .author-box {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            background-color: var(--gold);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-blue);
+            color: #94A3B8;
+            padding: 4rem 2rem 2rem;
+            margin-top: 5rem;
+            border-top: 4px solid var(--gold);
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #334155;
+        }
+
+        .footer-col h4 {
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 1.2rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col ul a {
+            color: #94A3B8;
+            text-decoration: none;
+        }
+
+        .footer-col ul a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 2rem auto 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .social-icons a {
+            color: #94A3B8;
+            margin-left: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .social-icons a:hover {
+            color: var(--gold);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">Fikria</a>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Articles</a></li>
+                <li><a href="#">Islamic Studies</a></li>
+                <li><a href="#">Governance</a></li>
+                <li><a href="#">History</a></li>
+                <li><a href="#">Research</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="theme-btn" title="Toggle Dark/Light Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Where Knowledge Meets Wisdom</h1>
+            <p>Empowering minds through authentic knowledge, critical thinking, and meaningful research.</p>
+            <div class="search-bar-container">
+                <input type="text" placeholder="Search articles, research papers, history...">
+                <button><i class="fas fa-search"></i> Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Body Content -->
+    <div class="main-container">
+        
+        <!-- Left Side: Articles -->
+        <main>
+            <h2 class="section-title">Featured Articles</h2>
+            
+            <div class="featured-grid">
+                <!-- Article 1 -->
+                <article class="article-card">
+                    <div class="article-content">
+                        <span class="meta-category">Governance & Public Policy</span>
+                        <a href="#" class="article-title">The Evolution of Public Policy in Contemporary Statehood</a>
+                        <p class="article-excerpt">An in-depth analysis of how structural paradigms shape modern administrative choices and the role of social contract theories in current frameworks...</p>
+                        <div class="article-meta">
+                            <span><i class="far fa-user"></i> By Editorial Board</span>
+                            <span><i class="far fa-calendar"></i> June 27, 2026</span>
+                            <span><i class="far fa-clock"></i> 5 min read</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 2 -->
+                <article class="article-card">
+                    <div class="article-content">
+                        <span class="meta-category">Islamic Studies</span>
+                        <a href="#" class="article-title">Karbala Studies: Analytical Insights into Historical Contexts</a>
+                        <p class="article-excerpt">Examining the ethical framework, socio-political dimensions, and lasting philosophical impact of historical events through verified academic lenses...</p>
+                        <div class="article-meta">
+                            <span><i class="far fa-user"></i> Research Dept</span>
+                            <span><i class="far fa-calendar"></i> June 24, 2026</span>
+                            <span><i class="far fa-clock"></i> 8 min read</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <h2 class="section-title">Latest Updates</h2>
+            <!-- Can add more standard cards here -->
+            <p style="color: var(--text-light)">More engaging research papers and book reviews are being cataloged.</p>
+        </main>
+
+        <!-- Right Side: Sidebar Widgets -->
+        <aside class="sidebar">
+            
+            <!-- Author Brief Widget -->
+            <div class="widget author-box">
+                <div class="author-avatar"><i class="fas fa-brain"></i></div>
+                <h3 class="widget-title" style="border:none; padding:0; text-align:center;">About Fikria</h3>
+                <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">
+                    A global platform dedicated to advancing critical thought across Islamic epistemology, governance, public policy, and strategic history.
+                </p>
+            </div>
+
+            <!-- Categories Widget -->
+            <div class="widget">
+                <h3 class="widget-title">Categories</h3>
+                <ul class="category-list">
+                    <li><a href="#"><span>Islamic Studies</span> <span>(12)</span></a></li>
+                    <li><a href="#"><span>Governance & Policy</span> <span>(8)</span></a></li>
+                    <li><a href="#"><span>History & Philosophy</span> <span>(15)</span></a></li>
+                    <li><a href="#"><span>Book Reviews</span> <span>(5)</span></a></li>
+                </ul>
+            </div>
+
+            <!-- Newsletter Widget -->
+            <div class="widget">
+                <h3 class="widget-title">Newsletter</h3>
+                <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem;">Get authentic insights directly in your inbox.</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+                    <input type="email" placeholder="Your Email Address" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+
+        </aside>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Fikria</h4>
+                <p style="font-size: 0.9rem;">Empowering minds through authentic knowledge, critical thinking, and meaningful research.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Editorial Policy</a></li>
+                    <li><a href="#">Research Papers</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Disclaimer</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>&copy; 2026 Fikria. All Rights Reserved.</div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript For Interactivity -->
+    <script>
+        // Dark Mode Logic
+        const themeBtn = document.getElementById('theme-btn');
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeBtnNormally I can help with things like this, but I don't seem to have access to that content. You can try again or ask me for something else.
